@@ -14,7 +14,7 @@
         android:id="@+id/booking"
         android:name="com.bassem.clinic_userapp.ui.booking.BookingDashboard"
         android:label="booking_fragment"
-        tools:layout="@layout/booking_fragment" />
+        tools:layout="@layout/calendarbooking_fragment" />
     <fragment
         android:id="@+id/profile"
         android:name="com.bassem.clinic_userapp.ui.profile.Profile"
