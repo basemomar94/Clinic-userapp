@@ -35,7 +35,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
     }
 
     fun GettingData() {
-        var sharedPreferences: SharedPreferences =
+        val sharedPreferences: SharedPreferences =
             activity!!.getSharedPreferences("PREF", Context.MODE_PRIVATE)
         val id = sharedPreferences.getString("id", "noo")!!
         db = FirebaseFirestore.getInstance()
@@ -50,7 +50,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
                 binding!!.complainInfo.text = value?.getString("complain")
                 binding!!.mailInfo.text = value?.getString("mail")
 
-                binding!!.phoneInfo.text = "0${value?.getDouble("phone")?.toInt().toString()}"
+                binding!!.phoneInfo.text = value?.getString("phone")
 
                 binding!!.notesInfo.text = value?.getString("note")
                 val sex = value?.getString("sex")

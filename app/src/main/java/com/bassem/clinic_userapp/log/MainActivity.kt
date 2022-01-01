@@ -11,6 +11,7 @@ import android.view.View
 
 import android.view.View.inflate
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bassem.clinic_userapp.R
@@ -39,9 +40,7 @@ class MainActivity : AppCompatActivity() {
          login.setOnClickListener {
              login.text=""
              loading.visibility=View.VISIBLE
-             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                 login.setAllowClickWhenDisabled(false)
-             }
+            loading.isClickable=false
              login.alpha=.5F
              Signin()
          }
@@ -50,20 +49,37 @@ class MainActivity : AppCompatActivity() {
     fun gotohome(){
         val intent:Intent= Intent(this,Container::class.java)
         startActivity(intent)
+        finish()
     }
 
     fun Signin(){
-        auth.signInWithEmailAndPassword(mail_log.text.toString().trim(),password_log.text.toString().trim()).addOnCompleteListener {
-            task->
-            if (task.isSuccessful){
-                val id=auth.currentUser?.uid
-                var sharedPreferences:SharedPreferences=getSharedPreferences("PREF",Context.MODE_PRIVATE)
-                var editor=sharedPreferences.edit()
-                editor.putString("id",id)
-                editor.commit()
-                gotohome()
+        if (mail_log.text.isNotEmpty()&&password_log.text.isNotEmpty()){
+            auth.signInWithEmailAndPassword(mail_log.text.toString().trim(),password_log.text.toString().trim()).addOnCompleteListener {
+                    task->
+                if (task.isSuccessful){
+                    val id=auth.currentUser?.uid
+                    var sharedPreferences:SharedPreferences=getSharedPreferences("PREF",Context.MODE_PRIVATE)
+                    var editor=sharedPreferences.edit()
+                    editor.putString("id",id)
+                    editor.commit()
+                    gotohome()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this,"${it.message}",Toast.LENGTH_LONG).show()
+                login.text="Login"
+                loading.visibility=View.INVISIBLE
+                loading.isClickable=true
+                login.alpha=1F
+
             }
+        } else {
+            Toast.makeText(this,"Please enter your mail and password ",Toast.LENGTH_LONG).show()
+            login.text="Login"
+            loading.visibility=View.INVISIBLE
+            loading.isClickable=true
+            login.alpha=1F
         }
+
 
     }
 
