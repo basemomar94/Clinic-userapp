@@ -13,11 +13,19 @@
     <fragment
         android:id="@+id/booking"
         android:name="com.bassem.clinic_userapp.ui.booking.BookingDashboard"
-        android:label="booking_fragment"
-        tools:layout="@layout/calendarbooking_fragment" />
+        android:label="booking_fragment">
+        <action
+            android:id="@+id/action_booking_to_calendar2"
+            app:destination="@id/calendar2" />
+    </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.bassem.clinic_userapp.ui.profile.Profile"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/calendar2"
+        android:name="com.bassem.clinic_userapp.ui.booking.Calendar"
+        android:label="calendarbooking_fragment"
+        tools:layout="@layout/calendarbooking_fragment" />
 </navigation>
