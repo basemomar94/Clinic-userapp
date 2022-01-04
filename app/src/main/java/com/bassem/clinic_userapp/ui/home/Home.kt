@@ -56,6 +56,11 @@ class Home() : Fragment(R.layout.home_fragment) {
                 } else {
                     binding?.name?.text = "Hello Miss ${value?.getString("fullname")}"
                 }
+                if (value?.getBoolean("hasVisit")==true){
+                    binding?.upcomingCard?.visibility=View.VISIBLE
+                    binding?.next?.text=value.getString("next_visit")
+                }
+
             }
         }
 
