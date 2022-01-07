@@ -1,22 +1,15 @@
 package com.bassem.clinic_userapp.log
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 
-import android.view.View.inflate
-import android.widget.Button
 import android.widget.Toast
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.bassem.clinic_userapp.R
 import com.bassem.clinic_userapp.ui.Container
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -37,11 +30,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-         login.setOnClickListener {
-             login.text=""
+         confirmBu.setOnClickListener {
+             confirmBu.text=""
              loading.visibility=View.VISIBLE
             loading.isClickable=false
-             login.alpha=.5F
+             confirmBu.alpha=.5F
              Signin()
          }
     }
@@ -66,18 +59,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }.addOnFailureListener {
                 Toast.makeText(this,"${it.message}",Toast.LENGTH_LONG).show()
-                login.text="Login"
+                confirmBu.text="Login"
                 loading.visibility=View.INVISIBLE
                 loading.isClickable=true
-                login.alpha=1F
+                confirmBu.alpha=1F
 
             }
         } else {
             Toast.makeText(this,"Please enter your mail and password ",Toast.LENGTH_LONG).show()
-            login.text="Login"
+            confirmBu.text="Login"
             loading.visibility=View.INVISIBLE
             loading.isClickable=true
-            login.alpha=1F
+            confirmBu.alpha=1F
         }
 
 
