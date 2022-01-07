@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bassem.clinic_userapp.R
 import com.bassem.clinic_userapp.databinding.HistoryFragmentBinding
 import com.google.firebase.firestore.*
 
-class History() : Fragment(R.layout.history_fragment) {
+class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklisener {
     var _binding: HistoryFragmentBinding? = null
     val binding get() = _binding
     lateinit var recyclerView: RecyclerView
@@ -35,11 +36,16 @@ class History() : Fragment(R.layout.history_fragment) {
         return binding?.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         visitsArrayList = arrayListOf()
         recyclerView = view.findViewById(R.id.historyRV)
-        adapter = HistoryAdapter(visitsArrayList)
+        adapter = HistoryAdapter(visitsArrayList,this)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -48,7 +54,7 @@ class History() : Fragment(R.layout.history_fragment) {
 
     fun EventChangeListner() {
         db = FirebaseFirestore.getInstance()
-        db.collection("visits").whereEqualTo("id", id)
+        db.collection("visits").whereEqualTo("id", id).orderBy("bookingtime",Query.Direction.DESCENDING)
             .orderBy("bookingtime", Query.Direction.ASCENDING).addSnapshotListener(
                 object : EventListener<QuerySnapshot> {
                     override fun onEvent(
@@ -76,6 +82,14 @@ class History() : Fragment(R.layout.history_fragment) {
             )
 
 
+    }
+
+    override fun onClick(position: Int) {
+        val visit=visitsArrayList[position].visit
+        val navController=Navigation.findNavController(activity!!,R.id.nav_host_fragment)
+        var bundle=Bundle()
+        bundle.putString("visit",visit)
+        navController.navigate(R.id.action_booking_to_visitsExpand,bundle)
     }
 
 }

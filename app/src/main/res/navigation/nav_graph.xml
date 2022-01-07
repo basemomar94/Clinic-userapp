@@ -15,8 +15,11 @@
         android:name="com.bassem.clinic_userapp.ui.booking.BookingDashboard"
         android:label="booking_fragment">
         <action
-            android:id="@+id/action_booking_to_calendar22"
+            android:id="@+id/action_booking_to_calendar2"
             app:destination="@id/calendar2" />
+        <action
+            android:id="@+id/action_booking_to_visitsExpand"
+            app:destination="@id/visitsExpand" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -33,4 +36,9 @@
         android:name="com.bassem.clinic_userapp.ui.booking.Upcoming"
         android:label="upcoming_fragment"
         tools:layout="@layout/upcoming_fragment" />
+    <fragment
+        android:id="@+id/visitsExpand"
+        android:name="com.bassem.clinic_userapp.ui.booking.VisitsExpand"
+        android:label="visit_expand"
+        tools:layout="@layout/visit_expand" />
 </navigation>

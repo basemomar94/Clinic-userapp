@@ -19,6 +19,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     val binding get() = _binding
     var db: FirebaseFirestore? = null
     var id: String? = null
+    var visit_id:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +44,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
         binding?.newbooking?.setOnClickListener {
             val navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-            navController.navigate(R.id.action_booking_to_calendar22)
+            navController.navigate(R.id.action_booking_to_calendar2)
         }
         binding?.cancel?.setOnClickListener {
             Cancel()
@@ -63,6 +64,8 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
                     binding?.newbooking?.visibility = View.VISIBLE
                     binding?.visitcard?.visibility = View.GONE
+                    CancelOnVisit()
+
                 }
 
             }
@@ -82,6 +85,8 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
                     binding?.nextapp?.text = value.getString("next_visit")
                     binding?.notes?.text = value.getString("note")
                     binding?.requests?.text = value.getString("req")
+                    visit_id=value.getString("visit_id")
+                    println("Visit $visit_id")
                 } else {
 
                     binding?.visitcard?.visibility = View.GONE
@@ -89,6 +94,14 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
                 }
 
             }
+        }
+
+    }
+    fun CancelOnVisit (){
+        db= FirebaseFirestore.getInstance()
+        db!!.collection("visits").document(visit_id!!).update("status","cancelled by You").addOnCompleteListener {
+            println("BY YOU")
+
         }
 
     }
