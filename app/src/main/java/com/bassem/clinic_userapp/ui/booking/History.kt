@@ -44,17 +44,15 @@ class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         visitsArrayList = arrayListOf()
-        recyclerView = view.findViewById(R.id.historyRV)
-        adapter = HistoryAdapter(visitsArrayList,this)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        Recycle_Setup(visitsArrayList)
+
         EventChangeListner()
     }
 
     fun EventChangeListner() {
         db = FirebaseFirestore.getInstance()
-        db.collection("visits").whereEqualTo("id", id).orderBy("bookingtime",Query.Direction.DESCENDING)
+        db.collection("visits").whereEqualTo("id", id)
+            .orderBy("bookingtime", Query.Direction.DESCENDING)
             .orderBy("bookingtime", Query.Direction.ASCENDING).addSnapshotListener(
                 object : EventListener<QuerySnapshot> {
                     override fun onEvent(
@@ -64,15 +62,18 @@ class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklis
                         if (error != null) {
                             println(error.message)
                         } else {
+                            Thread(Runnable {
+                                for (dc: DocumentChange in value!!.documentChanges) {
+                                    if (dc.type == DocumentChange.Type.ADDED) {
+                                        visitsArrayList.add(dc.document.toObject(Visits::class.java))
 
-                            for (dc: DocumentChange in value!!.documentChanges) {
-                                if (dc.type == DocumentChange.Type.ADDED) {
-                                    visitsArrayList.add(dc.document.toObject(Visits::class.java))
+                                    }
 
                                 }
-
-                            }
-                            adapter.notifyDataSetChanged()
+                                activity?.runOnUiThread {
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }).start()
 
 
                         }
@@ -85,11 +86,18 @@ class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklis
     }
 
     override fun onClick(position: Int) {
-        val visit=visitsArrayList[position].visit
-        val navController=Navigation.findNavController(activity!!,R.id.nav_host_fragment)
-        var bundle=Bundle()
-        bundle.putString("visit",visit)
-        navController.navigate(R.id.action_booking_to_visitsExpand,bundle)
+        val visit = visitsArrayList[position].visit
+        val navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        var bundle = Bundle()
+        bundle.putString("visit", visit)
+        navController.navigate(R.id.action_booking_to_visitsExpand, bundle)
+    }
+    fun Recycle_Setup(list: ArrayList<Visits>){
+        recyclerView = view!!.findViewById(R.id.historyRV)
+        adapter = HistoryAdapter(list, this)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
     }
 
 }
