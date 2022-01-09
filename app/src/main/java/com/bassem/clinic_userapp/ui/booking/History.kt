@@ -52,7 +52,6 @@ class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklis
     fun EventChangeListner() {
         db = FirebaseFirestore.getInstance()
         db.collection("visits").whereEqualTo("id", id)
-            .orderBy("bookingtime", Query.Direction.DESCENDING)
             .orderBy("bookingtime", Query.Direction.ASCENDING).addSnapshotListener(
                 object : EventListener<QuerySnapshot> {
                     override fun onEvent(

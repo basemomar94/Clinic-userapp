@@ -11,10 +11,15 @@ import android.widget.Toast
 import com.bassem.clinic_userapp.R
 import com.bassem.clinic_userapp.ui.Container
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    lateinit var db:FirebaseFirestore
+    var token:String?=null
+    var id:String?=null
 
     override fun onStart() {
         super.onStart()
@@ -23,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         if (currentUser!=null){
             gotohome()
+        } else {
+
         }
     }
 
@@ -50,12 +57,10 @@ class MainActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(mail_log.text.toString().trim(),password_log.text.toString().trim()).addOnCompleteListener {
                     task->
                 if (task.isSuccessful){
-                    val id=auth.currentUser?.uid
-                    var sharedPreferences:SharedPreferences=getSharedPreferences("PREF",Context.MODE_PRIVATE)
-                    var editor=sharedPreferences.edit()
-                    editor.putString("id",id)
-                    editor.commit()
-                    gotohome()
+                     id=auth.currentUser?.uid
+                    GetToken()
+
+
                 }
             }.addOnFailureListener {
                 Toast.makeText(this,"${it.message}",Toast.LENGTH_LONG).show()
@@ -74,6 +79,30 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+    fun GetToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { it ->
+            if (it.isSuccessful){
+                token=it.result
+                db= FirebaseFirestore.getInstance()
+                db.collection("patiens_info").document(id!!).update("token",token).addOnCompleteListener { 
+                    if (it.isSuccessful){
+
+                        var sharedPreferences:SharedPreferences=getSharedPreferences("PREF",Context.MODE_PRIVATE)
+                        var editor=sharedPreferences.edit()
+                        editor.putString("id",id)
+                        editor.putString("token",token)
+                        editor.apply()
+                        gotohome()
+                    }
+                }
+
+
+
+
+            }
+
+        }
     }
 
 }

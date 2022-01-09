@@ -14,6 +14,8 @@ class Home() : Fragment(R.layout.home_fragment) {
     var _binding: HomeFragmentBinding? = null
     val binding get() = _binding
     var db: FirebaseFirestore? = null
+    var name:String?=null
+    var complain:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +62,12 @@ class Home() : Fragment(R.layout.home_fragment) {
                     binding?.upcomingCard?.visibility=View.VISIBLE
                     binding?.next?.text=value.getString("next_visit")
                 }
+                name=value?.getString("fullname")
+                complain=value?.getString("complain")
+                val editor=sharedPreferences.edit()
+                editor.putString("name",name)
+                editor.putString("complain",complain)
+                editor.apply()
 
             }
         }
