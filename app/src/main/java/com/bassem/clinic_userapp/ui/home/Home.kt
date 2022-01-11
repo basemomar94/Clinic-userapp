@@ -183,7 +183,7 @@ class Home() : Fragment(R.layout.home_fragment) {
 
 
         println("${pendingList.size}===================Pending")
-        println(AllList.size)
+
 
 
     }
@@ -191,6 +191,8 @@ class Home() : Fragment(R.layout.home_fragment) {
     @RequiresApi(Build.VERSION_CODES.O)
     fun EstimatedTime() {
         if (turn?.toInt()!! >total!!){
+            println("$total=================total")
+            println("$turn=====================turn")
             val remaining =10 * turn?.toInt()?.minus(total!!)!!
             binding?.patientNumber?.text= turn?.toInt()?.minus(total!!).toString()
 
@@ -204,7 +206,7 @@ class Home() : Fragment(R.layout.home_fragment) {
 
 
         }else {
-            binding?.numberCard?.visibility=View.GONE
+           binding?.numberCard?.visibility=View.GONE
         }
 
     }

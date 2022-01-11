@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/booking"
     android:layout_width="match_parent"
@@ -44,20 +45,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:visibility="invisible">
+            android:visibility="invisible"
+            app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/nextvisit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Your next visit will be in" />
+                android:text="Your next visit will be in"
+                android:textSize="16sp" />
         </androidx.cardview.widget.CardView>
 
         <FrameLayout
             android:id="@+id/confirm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -73,7 +77,8 @@
                     android:background="@drawable/custombut"
                     android:stateListAnimator="@null"
                     android:text="Confirm"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
             </FrameLayout>
 
             <ProgressBar

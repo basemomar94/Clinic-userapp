@@ -1,10 +1,12 @@
 package com.bassem.clinic_userapp.ui.booking
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -12,6 +14,12 @@ import com.bassem.clinic_userapp.R
 import com.bassem.clinic_userapp.databinding.UpcomingFragmentBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.upcoming_fragment.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.HashMap
 
 class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
@@ -19,7 +27,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     val binding get() = _binding
     var db: FirebaseFirestore? = null
     var id: String? = null
-    var visit_id:String?=null
+    var visit_id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
         return binding?.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getData()
@@ -72,6 +81,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getData() {
         println("Data")
         db = FirebaseFirestore.getInstance()
@@ -79,13 +89,16 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
             if (error != null) {
                 println("${error.message} ERROR")
             } else {
-                if (value?.getBoolean("IsVisit") == true) {
+                val isVisit = value?.getBoolean("IsVisit")
+                val nextVisit = value?.getString("next_visit")
+                if (isVisit!! &&IsBookedPassed(nextVisit!!)) {
                     binding?.visitcard?.visibility = View.VISIBLE
                     binding?.newbooking?.visibility = View.GONE
+
                     binding?.nextapp?.text = value.getString("next_visit")
                     binding?.notes?.text = value.getString("note")
                     binding?.requests?.text = value.getString("req")
-                    visit_id=value.getString("visit_id")
+                    visit_id = value.getString("visit_id")
                     println("Visit $visit_id")
                 } else {
 
@@ -97,13 +110,24 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
         }
 
     }
-    fun CancelOnVisit (){
-        db= FirebaseFirestore.getInstance()
-        db!!.collection("visits").document(visit_id!!).update("status","cancelled by You").addOnCompleteListener {
-            println("BY YOU")
 
-        }
+    fun CancelOnVisit() {
+        db = FirebaseFirestore.getInstance()
+        db!!.collection("visits").document(visit_id!!).update("status", "cancelled by You")
+            .addOnCompleteListener {
+                println("BY YOU")
 
+            }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun IsBookedPassed(visit: String): Boolean {
+       val locale = Locale.ENGLISH
+        val sdf = DateTimeFormatter.ofPattern("d-M-yyyy",locale)
+        val visitDate: LocalDate = LocalDate.parse(visit, sdf)
+        val dateNow = LocalDate.now()
+        return visitDate >= dateNow
     }
 
 
