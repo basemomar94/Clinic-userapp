@@ -192,6 +192,7 @@ class Home() : Fragment(R.layout.home_fragment) {
     fun EstimatedTime() {
         if (turn?.toInt()!! >total!!){
             val remaining =10 * turn?.toInt()?.minus(total!!)!!
+            binding?.patientNumber?.text= turn?.toInt()?.minus(total!!).toString()
 
 
             val locale: Locale = Locale.US
@@ -202,6 +203,8 @@ class Home() : Fragment(R.layout.home_fragment) {
 
 
 
+        }else {
+            binding?.numberCard?.visibility=View.GONE
         }
 
     }
