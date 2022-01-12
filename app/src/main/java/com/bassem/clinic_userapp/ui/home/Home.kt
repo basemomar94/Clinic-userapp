@@ -81,6 +81,7 @@ class Home() : Fragment(R.layout.home_fragment) {
                     binding?.upcomingCard?.visibility = View.VISIBLE
                     nextvist = value.getString("next_visit")
                     binding?.next?.text = nextvist
+                    binding?.timeHome?.text=value.getString("visit_time")
                     Show_turn_Card()
 
                 }
@@ -206,7 +207,7 @@ class Home() : Fragment(R.layout.home_fragment) {
 
 
         }else {
-           binding?.numberCard?.visibility=View.GONE
+         //  binding?.numberCard?.visibility=View.GONE
         }
 
     }

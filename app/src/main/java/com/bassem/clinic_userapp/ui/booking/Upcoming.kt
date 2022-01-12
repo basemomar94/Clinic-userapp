@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.Calendar
 import kotlin.collections.HashMap
 
 class Upcoming() : Fragment(R.layout.upcoming_fragment) {
@@ -28,6 +29,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     var db: FirebaseFirestore? = null
     var id: String? = null
     var visit_id: String? = null
+    var today: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +93,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
             } else {
                 val isVisit = value?.getBoolean("IsVisit")
                 val nextVisit = value?.getString("next_visit")
-                if (isVisit!! &&IsBookedPassed(nextVisit!!)) {
+                if (isVisit!! && IsBookedPassed(nextVisit!!)) {
                     binding?.visitcard?.visibility = View.VISIBLE
                     binding?.newbooking?.visibility = View.GONE
 
@@ -99,6 +101,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
                     binding?.notes?.text = value.getString("note")
                     binding?.requests?.text = value.getString("req")
                     visit_id = value.getString("visit_id")
+                    binding?.timeUpcoming?.text = value.getString("visit_time")
                     println("Visit $visit_id")
                 } else {
 
@@ -113,7 +116,10 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
     fun CancelOnVisit() {
         db = FirebaseFirestore.getInstance()
-        db!!.collection("visits").document(visit_id!!).update("status", "cancelled by You")
+        var cancelHashMap = HashMap<String, Any>()
+        cancelHashMap["status"] = "cancelled by you"
+        cancelHashMap["date"] = today!!
+        db!!.collection("visits").document(visit_id!!).update(cancelHashMap)
             .addOnCompleteListener {
                 println("BY YOU")
 
@@ -123,11 +129,19 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun IsBookedPassed(visit: String): Boolean {
-       val locale = Locale.ENGLISH
-        val sdf = DateTimeFormatter.ofPattern("d-M-yyyy",locale)
+        val locale = Locale.ENGLISH
+        val sdf = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
         val visitDate: LocalDate = LocalDate.parse(visit, sdf)
         val dateNow = LocalDate.now()
         return visitDate >= dateNow
+    }
+
+    fun GetToday() {
+        val calendar: Calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val year = calendar.get(Calendar.YEAR)
+        today = "$day-$month-$year"
     }
 
 
