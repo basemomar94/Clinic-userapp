@@ -3,7 +3,6 @@ package com.bassem.clinic_userapp.ui.home
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.bassem.clinic_userapp.databinding.HomeFragmentBinding
 import com.bassem.clinic_userapp.ui.booking.Visits
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
-import java.sql.Time
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -31,10 +29,15 @@ class Home() : Fragment(R.layout.home_fragment) {
     var visitsArrayList: ArrayList<Visits>? = null
     var turn: String? = null
     var total: Int? = null
+    var nextDate: String? = null
+    var nextTime: String? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GetToday()
+
+//
     }
 
     override fun onCreateView(
@@ -46,14 +49,19 @@ class Home() : Fragment(R.layout.home_fragment) {
         return binding?.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         GettingData()
-        //GetTurnsData()
+        binding?.roshta?.setOnClickListener {
+
+            println("test")
+        }
 
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun GettingData() {
         val sharedPreferences = activity?.getSharedPreferences("PREF", Context.MODE_PRIVATE)
         val id = sharedPreferences?.getString("id", "")
@@ -78,11 +86,11 @@ class Home() : Fragment(R.layout.home_fragment) {
                     binding?.name?.text = "Hello Miss ${value?.getString("fullname")}"
                 }
                 if (value?.getBoolean("IsVisit") == true) {
-                    binding?.upcomingCard?.visibility = View.VISIBLE
-                    nextvist = value.getString("next_visit")
-                    binding?.next?.text = nextvist
-                    binding?.timeHome?.text=value.getString("visit_time")
-                    Show_turn_Card()
+
+                    nextDate = value.getString("next_visit")
+                    nextTime = value.getString("visit_time")
+                    IsClinicOpen()
+
 
                 }
                 name = value?.getString("fullname")
@@ -107,11 +115,15 @@ class Home() : Fragment(R.layout.home_fragment) {
         today = "$day-$month-$year"
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun Show_turn_Card() {
-        if (nextvist == today) {
+        if (nextDate == today) {
             GetTurnsData()
+            binding?.upcomingCard?.visibility = View.VISIBLE
             binding?.numberCard?.visibility = View.VISIBLE
             binding?.upcomingCard?.visibility = View.GONE
+            binding?.next?.text = nextDate
+            binding?.timeHome?.text = nextTime
 
         }
     }
@@ -186,29 +198,62 @@ class Home() : Fragment(R.layout.home_fragment) {
         println("${pendingList.size}===================Pending")
 
 
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun EstimatedTime() {
-        if (turn?.toInt()!! >total!!){
+        if (turn?.toInt()!! > total!!) {
             println("$total=================total")
             println("$turn=====================turn")
-            val remaining =10 * turn?.toInt()?.minus(total!!)!!
-            binding?.patientNumber?.text= turn?.toInt()?.minus(total!!).toString()
+            val remaining = 10 * turn?.toInt()?.minus(total!!)!!
+            binding?.patientNumber?.text = turn?.toInt()?.minus(total!!).toString()
 
 
             val locale: Locale = Locale.US
             val sdf = DateTimeFormatter.ofPattern("hh:mm a").withLocale(locale)
-            val time=LocalTime.now()
-            val appointment=sdf.format(time.plusMinutes(remaining.toLong()))
-            binding?.appointmentTime?.text=appointment
+            val time = LocalTime.now()
+            val appointment = sdf.format(time.plusMinutes(remaining.toLong()))
+            binding?.appointmentTime?.text = appointment
 
 
-
-        }else {
-         //  binding?.numberCard?.visibility=View.GONE
+        } else {
+            //  binding?.numberCard?.visibility=View.GONE
         }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun IsClinicOpen() {
+        var open: String? = null
+        var close: String? = null
+        val locale = Locale.ENGLISH
+        var available: Boolean? = null
+
+        val sdf = DateTimeFormatter.ofPattern("hh:mm a", locale)
+
+        var timeNow = LocalTime.now()
+        db = FirebaseFirestore.getInstance()
+        db?.collection("settings")?.document("settings")?.addSnapshotListener { value, error ->
+            if (error != null) {
+                println(error.message)
+            } else {
+                open = value!!.getString("open")!!
+                close = value.getString("close")!!
+                val openTime = LocalTime.parse(open!!.trim(), sdf)
+                val closeTime = LocalTime.parse(close!!.trim(), sdf)
+                available = timeNow > openTime && timeNow < closeTime
+
+                println(available)
+                if (available == true) {
+
+                    Show_turn_Card()
+
+                }
+
+
+            }
+        }
+
 
     }
 
