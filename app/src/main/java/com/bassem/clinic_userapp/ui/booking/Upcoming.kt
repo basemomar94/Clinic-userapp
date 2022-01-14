@@ -30,11 +30,14 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     var id: String? = null
     var visit_id: String? = null
     var today: String? = null
+    var fees:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sharedPreferences = activity?.getSharedPreferences("PREF", Context.MODE_PRIVATE)
         id = sharedPreferences?.getString("id", "")
+        GetToday()
+        GetSettings()
     }
 
     override fun onCreateView(
@@ -102,7 +105,8 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
                     binding?.requests?.text = value.getString("req")
                     visit_id = value.getString("visit_id")
                     binding?.timeUpcoming?.text = value.getString("visit_time")
-                    println("Visit $visit_id")
+                    binding?.feesUpcoming?.text=fees
+
                 } else {
 
                     binding?.visitcard?.visibility = View.GONE
@@ -142,6 +146,18 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
         today = "$day-$month-$year"
+    }
+    fun GetSettings (){
+        db= FirebaseFirestore.getInstance()
+        db!!.collection("settings").document("settings").addSnapshotListener { value, error ->
+            if (error!=null){
+                println(error.message)
+            } else {
+                fees= value?.getString("fees")
+
+
+            }
+        }
     }
 
 

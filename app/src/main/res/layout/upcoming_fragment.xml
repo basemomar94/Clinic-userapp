@@ -83,7 +83,7 @@
                         android:src="@drawable/money" />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/fees_upcoming"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
@@ -91,10 +91,10 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/divider"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/gray" />
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -131,10 +131,10 @@
                     android:text="bring cbc\nurine analyses" />
 
                 <View
+                    android:id="@+id/divider2"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/gray" />
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
