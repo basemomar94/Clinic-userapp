@@ -13,8 +13,4 @@
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="Profile" />
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Settings" />
 </menu>

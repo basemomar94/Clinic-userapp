@@ -182,7 +182,8 @@
                         android:layout_margin="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/custombut"
-                        android:text="Edit" />
+                        android:text="Edit"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/cancel"

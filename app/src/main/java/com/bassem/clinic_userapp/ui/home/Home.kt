@@ -31,11 +31,14 @@ class Home() : Fragment(R.layout.home_fragment) {
     var total: Int? = null
     var nextDate: String? = null
     var nextTime: String? = null
+    var waiting: Int? = null
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GetToday()
+        GetSettings()
 
 //
     }
@@ -86,9 +89,11 @@ class Home() : Fragment(R.layout.home_fragment) {
                     binding?.name?.text = "Hello Miss ${value?.getString("fullname")}"
                 }
                 if (value?.getBoolean("IsVisit") == true) {
-
+                    binding?.upcomingCard?.visibility = View.VISIBLE
                     nextDate = value.getString("next_visit")
                     nextTime = value.getString("visit_time")
+                    binding?.next?.text=nextDate
+                    binding?.timeHome?.text=nextTime
                     IsClinicOpen()
 
 
@@ -119,7 +124,7 @@ class Home() : Fragment(R.layout.home_fragment) {
     fun Show_turn_Card() {
         if (nextDate == today) {
             GetTurnsData()
-            binding?.upcomingCard?.visibility = View.VISIBLE
+
             binding?.numberCard?.visibility = View.VISIBLE
             binding?.upcomingCard?.visibility = View.GONE
             binding?.next?.text = nextDate
@@ -202,11 +207,16 @@ class Home() : Fragment(R.layout.home_fragment) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun EstimatedTime() {
-        if (turn?.toInt()!! > total!!) {
-            println("$total=================total")
-            println("$turn=====================turn")
-            val remaining = 10 * turn?.toInt()?.minus(total!!)!!
-            binding?.patientNumber?.text = turn?.toInt()?.minus(total!!).toString()
+        println("Estimated==================================")
+        println("$total=================total")
+        println("$turn=====================turn")
+        if (turn?.toInt()!! >= total!!) {
+
+
+            var diff = turn!!.toInt() - total!!
+            val remaining = waiting!! * diff
+
+            binding?.patientNumber?.text = diff.toString()
 
 
             val locale: Locale = Locale.US
@@ -217,7 +227,8 @@ class Home() : Fragment(R.layout.home_fragment) {
 
 
         } else {
-            //  binding?.numberCard?.visibility=View.GONE
+
+
         }
 
     }
@@ -230,7 +241,6 @@ class Home() : Fragment(R.layout.home_fragment) {
         var available: Boolean? = null
 
         val sdf = DateTimeFormatter.ofPattern("hh:mm a", locale)
-
         var timeNow = LocalTime.now()
         db = FirebaseFirestore.getInstance()
         db?.collection("settings")?.document("settings")?.addSnapshotListener { value, error ->
@@ -239,6 +249,7 @@ class Home() : Fragment(R.layout.home_fragment) {
             } else {
                 open = value!!.getString("open")!!
                 close = value.getString("close")!!
+                println("$close=============close")
                 val openTime = LocalTime.parse(open!!.trim(), sdf)
                 val closeTime = LocalTime.parse(close!!.trim(), sdf)
                 available = timeNow > openTime && timeNow < closeTime
@@ -255,6 +266,13 @@ class Home() : Fragment(R.layout.home_fragment) {
         }
 
 
+    }
+
+    fun GetSettings() {
+        db = FirebaseFirestore.getInstance()
+        db?.collection("settings")?.document("setting")?.addSnapshotListener { value, error ->
+            waiting = value?.getString("average")?.toInt()
+        }
     }
 
 }
