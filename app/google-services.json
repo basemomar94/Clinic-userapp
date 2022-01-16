@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1043852854001",
+    "project_id": "clinicapp-884ba",
+    "storage_bucket": "clinicapp-884ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043852854001:android:98085c8e064313ce965f50",
+        "android_client_info": {
+          "package_name": "com.bassem.clinic_userapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043852854001-r5k8gbvt9lghqpcgb5v02gvh0nclbfia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTbdZFGJbAT24G439V8hat7wbtB3sSml8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043852854001-r5k8gbvt9lghqpcgb5v02gvh0nclbfia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043852854001:android:cefe8f27e57039e1965f50",
+        "android_client_info": {
+          "package_name": "com.bassem.clinicdoctorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043852854001-r5k8gbvt9lghqpcgb5v02gvh0nclbfia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTbdZFGJbAT24G439V8hat7wbtB3sSml8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043852854001-r5k8gbvt9lghqpcgb5v02gvh0nclbfia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
