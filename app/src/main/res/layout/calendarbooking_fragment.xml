@@ -12,7 +12,7 @@
     android:layout_marginRight="16dp"
     android:layout_marginBottom="64dp"
     android:orientation="vertical"
-    tools:context=".ui.booking.Calendar">
+    tools:context=".ui.booking.Booking">
 
     <LinearLayout
         android:layout_width="match_parent"

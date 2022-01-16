@@ -28,7 +28,7 @@
         tools:layout="@layout/profile_fragment" />
     <fragment
         android:id="@+id/calendar2"
-        android:name="com.bassem.clinic_userapp.ui.booking.Calendar"
+        android:name="com.bassem.clinic_userapp.ui.booking.Booking"
         android:label="calendarbooking_fragment"
         tools:layout="@layout/calendarbooking_fragment" />
     <fragment
