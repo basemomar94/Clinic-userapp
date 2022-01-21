@@ -1,5 +1,6 @@
 package com.bassem.clinic_userapp.ui.booking
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -64,7 +65,13 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
             navController.navigate(R.id.action_booking_to_calendar2)
         }
         binding?.cancel?.setOnClickListener {
-            Cancel()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Are you sure to cancel your appointment")
+            builder.setPositiveButton("yes") { builder, _ -> Cancel() }
+            builder.setNegativeButton("No") { builder, _ -> builder.dismiss() }
+            builder.setTitle("Cancel booking")
+            builder.show()
+
         }
 
     }
@@ -102,6 +109,9 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
                 if (isVisit!! && IsBookDatePassed(nextVisit!!)) {
                     binding?.visitcard?.visibility = View.VISIBLE
                     binding?.newbooking?.visibility = View.GONE
+                    binding?.noBookinglayout?.visibility = View.GONE
+
+
 
                     binding?.nextapp?.text = value.getString("next_visit")
                     binding?.notes?.text = value.getString("note")
@@ -113,7 +123,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
                 } else {
 
                     binding?.visitcard?.visibility = View.GONE
-                    binding?.newbooking?.visibility = View.VISIBLE
+                    binding?.noBookinglayout?.visibility = View.VISIBLE
                 }
 
             }

@@ -13,6 +13,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/noBookinglayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/nobooking"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:alpha=".7"
+                android:scaleType="fitCenter"
+                android:src="@drawable/nobook"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="You don't have any upcoming appointments"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/newbooking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/custombut"
+                android:text="Book" />
+        </LinearLayout>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/visitcard"
             android:layout_width="match_parent"
@@ -198,18 +235,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/newbooking"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="128dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/custombut"
-            android:text="New Booking" />
     </LinearLayout>
 
 

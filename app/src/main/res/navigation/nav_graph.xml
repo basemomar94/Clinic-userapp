@@ -9,7 +9,14 @@
         android:id="@+id/home"
         android:name="com.bassem.clinic_userapp.ui.home.Home"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_home_to_booking"
+            app:destination="@id/booking" />
+        <action
+            android:id="@+id/action_home_to_calendar2"
+            app:destination="@id/calendar2" />
+    </fragment>
     <fragment
         android:id="@+id/booking"
         android:name="com.bassem.clinic_userapp.ui.booking.BookingDashboard"
@@ -25,20 +32,24 @@
         android:id="@+id/profile"
         android:name="com.bassem.clinic_userapp.ui.profile.Profile"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profile_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/calendar2"
         android:name="com.bassem.clinic_userapp.ui.booking.Booking"
         android:label="calendarbooking_fragment"
         tools:layout="@layout/calendarbooking_fragment" />
     <fragment
-        android:id="@+id/upcoming"
-        android:name="com.bassem.clinic_userapp.ui.booking.Upcoming"
-        android:label="upcoming_fragment"
-        tools:layout="@layout/upcoming_fragment" />
-    <fragment
         android:id="@+id/visitsExpand"
         android:name="com.bassem.clinic_userapp.ui.booking.VisitsExpand"
         android:label="visit_expand"
         tools:layout="@layout/visit_expand" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.bassem.clinic_userapp.log.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>

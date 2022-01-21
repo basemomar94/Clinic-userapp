@@ -108,7 +108,6 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
         super.onDestroy()
         activity?.supportFragmentManager?.isDestroyed
 
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -152,7 +151,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
                 if (it.isSuccessful) {
                     db!!.collection("visits").document(visit!!).update("visit", visit)
 
-                    activity?.supportFragmentManager?.popBackStack()
+                   findNavController().navigateUp()
 
 
                 }
@@ -212,11 +211,11 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
         val locale = Locale.US
         val sdf = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
         val visitDate = LocalDate.parse(date, sdf)
-        if (visitDate == dateNow) {
-            result = "Your visit will be today"
+        result = if (visitDate == dateNow) {
+            "Your visit will be today"
         } else {
             var differnt = ChronoUnit.DAYS.between(dateNow, visitDate)
-            result = "Your visit will be after $differnt days"
+            "Your visit will be after $differnt days"
         }
         return result
 
@@ -273,56 +272,53 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
                 println(maxPatiens)
                 isFull = maxPatiens!! <= currentPatients!!
                 if (isFull!!) {
-                    binding?.nextvisit?.setTextColor(Color.RED)
-                    binding?.card?.visibility = View.VISIBLE
-                    binding?.confirm?.visibility = View.GONE
-                    binding?.note?.visibility = View.GONE
-                    binding?.time?.visibility = View.GONE
-                    binding?.time2?.visibility = View.GONE
-                    binding?.textView9?.visibility = View.GONE
-                    binding?.nextvisit?.text =
+                    BookingUnavaiable(
                         "We are sorry, we have reached maximum patients for these day, check another date"
+                    )
 
                 } else {
-                    if (ValidBooking(date!!)) {
+                    if (ValidBooking(date)) {
                         if (IsHoliday()) {
-                            binding?.nextvisit?.setTextColor(Color.RED)
-                            binding?.nextvisit?.text = "We are sorry it is our holiday"
-                            binding?.card?.visibility = View.VISIBLE
-                            binding?.confirm?.visibility = View.GONE
-                            binding?.note?.visibility = View.GONE
-                            binding?.time?.visibility = View.GONE
-                            binding?.time2?.visibility = View.GONE
-                            binding?.textView9?.visibility = View.GONE
+                            BookingUnavaiable("We are sorry it is our holiday")
 
                         } else {
-                            binding?.nextvisit?.setTextColor(Color.GREEN)
-                            binding?.nextvisit?.text = AfterDays(date!!)
-                            binding?.card?.visibility = View.VISIBLE
-                            binding?.confirm?.visibility = View.VISIBLE
-                            binding?.note?.visibility = View.VISIBLE
-                            binding?.time?.visibility = View.VISIBLE
-                            binding?.time2?.visibility = View.VISIBLE
-                            binding?.textView9?.visibility = View.VISIBLE
-                            VisitTurn()
+                            BookingAvailable()
                         }
 
                     } else {
-                        binding?.nextvisit?.setTextColor(Color.RED)
-                        binding?.nextvisit?.text = "the visit should be in the future"
-                        binding?.card?.visibility = View.VISIBLE
-                        binding?.confirm?.visibility = View.GONE
-                        binding?.note?.visibility = View.GONE
-                        binding?.time?.visibility = View.GONE
-                        binding?.time2?.visibility = View.GONE
-                        binding?.textView9?.visibility = View.GONE
-
-
+                        BookingUnavaiable("the visit should be in the future")
                     }
 
                 }
             }
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun BookingAvailable() {
+        binding?.nextvisit?.setTextColor(Color.GREEN)
+        binding?.nextvisit?.text = AfterDays(date!!)
+        binding?.card?.visibility = View.VISIBLE
+        binding?.confirm?.visibility = View.VISIBLE
+        binding?.note?.visibility = View.VISIBLE
+        binding?.time?.visibility = View.VISIBLE
+        binding?.time2?.visibility = View.VISIBLE
+        binding?.textView9?.visibility = View.VISIBLE
+        VisitTurn()
+    }
+
+    fun BookingUnavaiable(errorMessage: String) {
+        binding?.nextvisit?.setTextColor(Color.RED)
+        binding?.card?.visibility = View.VISIBLE
+        binding?.confirm?.visibility = View.GONE
+        binding?.note?.visibility = View.GONE
+        binding?.time?.visibility = View.GONE
+        binding?.time2?.visibility = View.GONE
+        binding?.textView9?.visibility = View.GONE
+        binding?.nextvisit?.text = errorMessage
+
+
+    }
+
 
 }

@@ -12,9 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bassem.clinic_userapp.R
 import com.bassem.clinic_userapp.databinding.ProfileFragmentBinding
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
@@ -29,6 +31,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
     var regesited_date: String? = null
     var fileName: String? = null
     var id: String? = null
+    var auth:FirebaseAuth?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +58,9 @@ class Profile() : Fragment(R.layout.profile_fragment) {
         binding?.pickImage?.setOnClickListener {
             PickImage()
 
+        }
+        binding?.logout?.setOnClickListener {
+            Logout()
         }
     }
 
@@ -141,7 +147,19 @@ class Profile() : Fragment(R.layout.profile_fragment) {
     }
     fun GetProfileImage(link: String){
         val imagePath= binding?.profileimage
-        Glide.with(this).load(link).into(imagePath!!)
+        if (activity!=null){
+            Glide.with(this).load(link).into(imagePath!!)
+        }
+    }
+
+    fun Logout(){
+        val sharedPreferences:SharedPreferences= activity?.getSharedPreferences("PREF",Context.MODE_PRIVATE)!!
+        sharedPreferences.edit().clear().apply()
+        auth= FirebaseAuth.getInstance()
+        auth!!.signOut()
+        findNavController().navigate(R.id.action_profile_to_mainActivity)
+
+
     }
 
 

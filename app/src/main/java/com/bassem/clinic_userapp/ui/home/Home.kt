@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bassem.clinic_userapp.R
 import com.bassem.clinic_userapp.databinding.HomeFragmentBinding
 import com.bassem.clinic_userapp.ui.booking.Visits
@@ -56,9 +57,12 @@ class Home() : Fragment(R.layout.home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         GettingData()
-        binding?.roshta?.setOnClickListener {
+        binding?.upcomingCard?.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_booking)
 
-            println("test")
+        }
+        binding?.bookHome?.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_calendar2)
         }
 
 
@@ -74,10 +78,12 @@ class Home() : Fragment(R.layout.home_fragment) {
                 println(error.message)
             } else {
                 if (value?.getString("pre") != null) {
+                    binding?.welcome?.visibility=View.GONE
                     binding?.roshta?.visibility = View.VISIBLE
                     binding?.preTV?.text = value.getString("pre")
                 }
                 if (value?.getString("ins") != null) {
+                    binding?.welcome?.visibility=View.GONE
                     binding?.roshta?.visibility = View.VISIBLE
                     binding?.insTV?.text = value.getString("ins")
                 }
@@ -89,6 +95,7 @@ class Home() : Fragment(R.layout.home_fragment) {
                     binding?.name?.text = "Hello Miss ${value?.getString("fullname")}"
                 }
                 if (value?.getBoolean("IsVisit") == true) {
+                    binding?.welcome?.visibility=View.GONE
                     binding?.upcomingCard?.visibility = View.VISIBLE
                     nextDate = value.getString("next_visit")
                     nextTime = value.getString("visit_time")
