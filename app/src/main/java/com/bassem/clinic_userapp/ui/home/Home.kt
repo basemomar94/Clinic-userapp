@@ -234,6 +234,8 @@ class Home() : Fragment(R.layout.home_fragment) {
 
         } else {
 
+            binding?.numberCard?.visibility = View.GONE
+
 
         }
 
