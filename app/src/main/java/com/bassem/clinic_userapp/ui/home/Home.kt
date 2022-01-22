@@ -29,7 +29,7 @@ class Home() : Fragment(R.layout.home_fragment) {
     var today: String? = null
     var visitsArrayList: ArrayList<Visits>? = null
     var turn: String? = null
-    var total: Int? = null
+    var totalCompleteVisits: Int? = null
     var nextDate: String? = null
     var nextTime: String? = null
     var waiting: Int? = null
@@ -199,9 +199,11 @@ class Home() : Fragment(R.layout.home_fragment) {
 
             }
             activity?.runOnUiThread {
-                total = completList.size
-                binding?.currentNumber?.text = total.toString()
+                totalCompleteVisits = completList.size
+                println("$totalCompleteVisits====================CCC")
+                binding?.currentNumber?.text = totalCompleteVisits.toString()
                 EstimatedTime()
+                GetSettings()
 
             }
         }).start()
@@ -214,15 +216,12 @@ class Home() : Fragment(R.layout.home_fragment) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun EstimatedTime() {
-        println("Estimated==================================")
-        println("$total=================total")
-        println("$turn=====================turn")
-        if (turn?.toInt()!! >= total!!) {
+        if (turn?.toInt()!! >= totalCompleteVisits!!) {
 
 
-            var diff = turn!!.toInt() - total!!
+            val diff = turn!!.toInt() - totalCompleteVisits!!
+            println("$waiting==============WAIT")
             val remaining = waiting!! * diff
-
             binding?.patientNumber?.text = diff.toString()
 
 
@@ -277,7 +276,7 @@ class Home() : Fragment(R.layout.home_fragment) {
 
     fun GetSettings() {
         db = FirebaseFirestore.getInstance()
-        db?.collection("settings")?.document("setting")?.addSnapshotListener { value, error ->
+        db?.collection("settings")?.document("settings")?.addSnapshotListener { value, error ->
             waiting = value?.getString("average")?.toInt()
         }
     }

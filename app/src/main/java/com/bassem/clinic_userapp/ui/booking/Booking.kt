@@ -175,8 +175,8 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
                     val locale = Locale.US
                     val sdate = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
                     val visitDate = LocalDate.parse(date, sdate)
-                    var workTime: LocalTime = if (visitDate == dateNow) {
-                        var timeNow = sdf.format(LocalTime.now())
+                    val workTime: LocalTime = if (visitDate == dateNow) {
+                        val timeNow = sdf.format(LocalTime.now())
                         LocalTime.parse(timeNow.toString(), sdf)
 
                     } else {
