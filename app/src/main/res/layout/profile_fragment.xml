@@ -10,406 +10,424 @@
 
     >
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="88dp"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/fullnameInfo2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Name"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/fullnameInfo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:textAlignment="textStart" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/divider3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/sex_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Sex"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/sex_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/dividers3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/age_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="number"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Age"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/age_info"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="number"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/divr3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/phone_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="number"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Phone"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/phone_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="number"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/dr3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/job_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Job"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/job_info"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/er3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/mail_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="textEmailAddress"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Mail"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/mail_info"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="textEmailAddress"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/r3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/complain_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="Complain"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/complain_info"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/divaider3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/notes_info2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:gravity="start|top"
-                            android:inputType="textMultiLine"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="note"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/notes_info"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:gravity="start|top"
-                            android:inputType="textMultiLine"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/der3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:id="@+id/nextlinear"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/next2"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:gravity="start|top"
-                            android:inputType="textMultiLine"
-                            android:minHeight="48dp"
-                            android:padding="8dp"
-                            android:text="next visit"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/next"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:gravity="start|top"
-                            android:inputType="textMultiLine"
-                            android:minHeight="48dp"
-                            android:padding="8dp" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="88dp"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/fullnameInfo2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Name"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/fullnameInfo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:textAlignment="textStart" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/divider3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/sex_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Sex"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/sex_info"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/dividers3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/age_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="number"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Age"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/age_info"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="number"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/divr3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/phone_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="number"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Phone"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/phone_info"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="number"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/dr3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/job_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Job"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/job_info"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/er3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/mail_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="textEmailAddress"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Mail"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/mail_info"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="textEmailAddress"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/r3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/complain_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="Complain"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/complain_info"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="textPersonName"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/divaider3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/notes_info2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:gravity="start|top"
+                                    android:inputType="textMultiLine"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="note"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/notes_info"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:gravity="start|top"
+                                    android:inputType="textMultiLine"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/der3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:id="@+id/nextlinear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:id="@+id/next2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:gravity="start|top"
+                                    android:inputType="textMultiLine"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp"
+                                    android:text="next visit"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/next"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="4dp"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:gravity="start|top"
+                                    android:inputType="textMultiLine"
+                                    android:minHeight="48dp"
+                                    android:padding="8dp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:elevation="10dp"
-                    android:foregroundGravity="bottom"
-                    app:cardCornerRadius="100dp">
+                    android:layout_gravity="center_horizontal">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:elevation="10dp"
+                            android:foregroundGravity="bottom"
+                            app:cardCornerRadius="100dp">
+
+                            <ImageView
+                                android:id="@+id/profileimage"
+                                android:layout_width="128dp"
+                                android:layout_height="128dp"
+                                android:layout_gravity="center_horizontal"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/patient" />
+
+                        </androidx.cardview.widget.CardView>
+                    </FrameLayout>
 
                     <ImageView
-                        android:id="@+id/profileimage"
-                        android:layout_width="128dp"
-                        android:layout_height="128dp"
-                        android:layout_gravity="center_horizontal"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/patient" />
+                        android:id="@+id/pickImage"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom|end"
+                        android:foregroundGravity="top"
+                        android:src="@drawable/camera" />
 
-                </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
             </FrameLayout>
 
-            <ImageView
-                android:id="@+id/pickImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="bottom|end"
-                android:foregroundGravity="top"
-                android:src="@drawable/camera" />
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="64dp"
+                android:background="@drawable/custombut"
+                android:text="Logout" />
+        </LinearLayout>
+    </ScrollView>
 
-        </FrameLayout>
-
-    </FrameLayout>
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="8dp"
-        android:background="@drawable/custombut"
-        android:text="Logout" />
 </LinearLayout>
