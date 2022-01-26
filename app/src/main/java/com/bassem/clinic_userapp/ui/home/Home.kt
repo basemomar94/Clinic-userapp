@@ -14,6 +14,7 @@ import com.bassem.clinic_userapp.databinding.HomeFragmentBinding
 import com.bassem.clinic_userapp.ui.booking.Visits
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -78,12 +79,12 @@ class Home() : Fragment(R.layout.home_fragment) {
                 println(error.message)
             } else {
                 if (value?.getString("pre") != null) {
-                    binding?.welcome?.visibility=View.GONE
+                    binding?.welcome?.visibility = View.GONE
                     binding?.roshta?.visibility = View.VISIBLE
                     binding?.preTV?.text = value.getString("pre")
                 }
                 if (value?.getString("ins") != null) {
-                    binding?.welcome?.visibility=View.GONE
+                    binding?.welcome?.visibility = View.GONE
                     binding?.roshta?.visibility = View.VISIBLE
                     binding?.insTV?.text = value.getString("ins")
                 }
@@ -94,13 +95,15 @@ class Home() : Fragment(R.layout.home_fragment) {
                 } else {
                     binding?.name?.text = "Hello Miss ${value?.getString("fullname")}"
                 }
-                if (value?.getBoolean("IsVisit") == true) {
-                    binding?.welcome?.visibility=View.GONE
+                nextDate = value?.getString("next_visit")
+
+                nextTime = value?.getString("visit_time")
+                if (value?.getBoolean("IsVisit") == true && IsBookDatePassed(nextDate!!)) {
+                    binding?.welcome?.visibility = View.GONE
                     binding?.upcomingCard?.visibility = View.VISIBLE
-                    nextDate = value.getString("next_visit")
-                    nextTime = value.getString("visit_time")
-                    binding?.next?.text=nextDate
-                    binding?.timeHome?.text=nextTime
+
+                    binding?.next?.text = nextDate
+                    binding?.timeHome?.text = nextTime
                     IsClinicOpen()
 
 
@@ -138,6 +141,7 @@ class Home() : Fragment(R.layout.home_fragment) {
             binding?.timeHome?.text = nextTime
 
         }
+
     }
 
     private fun GetTurnsData() {
@@ -281,6 +285,15 @@ class Home() : Fragment(R.layout.home_fragment) {
         db?.collection("settings")?.document("settings")?.addSnapshotListener { value, error ->
             waiting = value?.getString("average")?.toInt()
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun IsBookDatePassed(visit: String): Boolean {
+        val locale = Locale.ENGLISH
+        val sdf = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
+        val visitDate: LocalDate = LocalDate.parse(visit, sdf)
+        val dateNow = LocalDate.now()
+        return visitDate >= dateNow
     }
 
 }
