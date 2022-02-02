@@ -26,14 +26,14 @@ class Home() : Fragment(R.layout.home_fragment) {
     var db: FirebaseFirestore? = null
     var name: String? = null
     var complain: String? = null
-    var nextvist: String? = null
     var today: String? = null
-    var visitsArrayList: ArrayList<Visits>? = null
+    var pendingList: ArrayList<Visits>? = null
     var turn: String? = null
-    var totalCompleteVisits: Int? = null
     var nextDate: String? = null
     var nextTime: String? = null
     var waiting: Int? = null
+    var userID:String?=null
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -72,9 +72,9 @@ class Home() : Fragment(R.layout.home_fragment) {
     @RequiresApi(Build.VERSION_CODES.O)
     fun GettingData() {
         val sharedPreferences = activity?.getSharedPreferences("PREF", Context.MODE_PRIVATE)
-        val id = sharedPreferences?.getString("id", "")
+        userID = sharedPreferences?.getString("id", "")
         db = FirebaseFirestore.getInstance()
-        db?.collection("patiens_info")?.document(id!!)?.addSnapshotListener { value, error ->
+        db?.collection("patiens_info")?.document(userID!!)?.addSnapshotListener { value, error ->
             if (error != null) {
                 println(error.message)
             } else {
@@ -111,8 +111,8 @@ class Home() : Fragment(R.layout.home_fragment) {
                 name = value?.getString("fullname")
                 complain = value?.getString("complain")
                 turn = value?.getString("turn")
-                binding?.patientNumber?.text = turn
-                val editor = sharedPreferences.edit()
+                //binding?.patientNumber?.text = turn
+                val editor = sharedPreferences!!.edit()
                 editor.putString("name", name)
                 editor.putString("complain", complain)
                 editor.apply()
@@ -145,10 +145,9 @@ class Home() : Fragment(R.layout.home_fragment) {
     }
 
     private fun GetTurnsData() {
-        visitsArrayList = arrayListOf()
-        println("$today==================Today")
+        pendingList = arrayListOf()
         db = FirebaseFirestore.getInstance()
-        db?.collection("visits")?.whereEqualTo("date", today)
+        db?.collection("visits")?.whereEqualTo("date", today)?.whereEqualTo("status","Pending")
             ?.orderBy("bookingtime", Query.Direction.ASCENDING)?.addSnapshotListener(
 
 
@@ -165,84 +164,16 @@ class Home() : Fragment(R.layout.home_fragment) {
                             Thread(Runnable {
                                 for (dc: DocumentChange in value!!.documentChanges) {
                                     if (dc.type == DocumentChange.Type.ADDED) {
-                                        visitsArrayList?.add(dc.document.toObject(Visits::class.java))
+                                        pendingList?.add(dc.document.toObject(Visits::class.java))
                                     }
                                 }
-                                println("${visitsArrayList?.size}============user")
-                                activity?.runOnUiThread { Filter() }
-
-
+                                activity?.runOnUiThread {
+                                    getTurnfromPending()
+                                }
                             }).start()
                         }
 
-                    }
-                })
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun Filter() {
-        println("Filter==========================")
-        var pendingList: ArrayList<Visits> = arrayListOf()
-        var AllList: ArrayList<Visits> = arrayListOf()
-        var cancelList: ArrayList<Visits> = arrayListOf()
-        var completList: ArrayList<Visits> = arrayListOf()
-        Thread(Runnable {
-            for (visit: Visits in visitsArrayList!!) {
-                var status = visit.status
-
-
-                if (status == "Pending") {
-                    pendingList.add(visit)
-
-                }
-                if (status == "completed") {
-                    completList.add(visit)
-                }
-
-
-            }
-            activity?.runOnUiThread {
-                totalCompleteVisits = completList.size
-                println("$totalCompleteVisits====================CCC")
-                binding?.currentNumber?.text = totalCompleteVisits.toString()
-                EstimatedTime()
-                GetSettings()
-
-            }
-        }).start()
-
-
-        println("${pendingList.size}===================Pending")
-
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun EstimatedTime() {
-        if (turn?.toInt()!! >= totalCompleteVisits!!) {
-
-
-            val diff = turn!!.toInt() - totalCompleteVisits!!
-            println("$waiting==============WAIT")
-            val remaining = waiting!! * diff
-            binding?.patientNumber?.text = diff.toString()
-
-
-            val locale: Locale = Locale.US
-            val sdf = DateTimeFormatter.ofPattern("hh:mm a").withLocale(locale)
-            val time = LocalTime.now()
-            val appointment = sdf.format(time.plusMinutes(remaining.toLong()))
-            binding?.appointmentTime?.text = appointment
-
-
-        } else {
-
-            binding?.numberCard?.visibility = View.GONE
-
-
-        }
-
+                    } })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -266,7 +197,6 @@ class Home() : Fragment(R.layout.home_fragment) {
                 val closeTime = LocalTime.parse(close!!.trim(), sdf)
                 available = timeNow > openTime && timeNow < closeTime
 
-                println(available)
                 if (available == true) {
 
                     Show_turn_Card()
@@ -294,6 +224,34 @@ class Home() : Fragment(R.layout.home_fragment) {
         val visitDate: LocalDate = LocalDate.parse(visit, sdf)
         val dateNow = LocalDate.now()
         return visitDate >= dateNow
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getTurnfromPending(){
+        var index : Int?=null
+        var loop=0
+        println(pendingList?.get(0)?.id)
+        println(pendingList?.get(1)?.id)
+        println(userID)
+        pendingList?.forEachIndexed{ index, visits ->
+            if (visits.id==userID){
+                println("$index ==========")
+                when(index){
+                    0->{
+                        binding?.appointmentTime?.text = "Now"
+                        binding?.patientNumber?.text="It's your turn"
+                    }
+                   else->{
+                       val remaining= waiting?.times(index)
+                       val locale: Locale = Locale.US
+                       val sdf = DateTimeFormatter.ofPattern("hh:mm a").withLocale(locale)
+                       val time = LocalTime.now()
+                       val appointment = sdf.format(time.plusMinutes(remaining!!.toLong()))
+                       binding?.appointmentTime?.text = appointment
+                       binding?.patientNumber?.text=index.toString()
+                   }
+                }
+            }
+        }
     }
 
 }
