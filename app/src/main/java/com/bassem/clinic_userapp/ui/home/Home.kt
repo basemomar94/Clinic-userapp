@@ -168,7 +168,7 @@ class Home() : Fragment(R.layout.home_fragment) {
                                     }
                                 }
                                 activity?.runOnUiThread {
-                                    getTurnfromPending()
+                                    getTurnfromPendingList()
                                 }
                             }).start()
                         }
@@ -226,15 +226,9 @@ class Home() : Fragment(R.layout.home_fragment) {
         return visitDate >= dateNow
     }
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getTurnfromPending(){
-        var index : Int?=null
-        var loop=0
-        println(pendingList?.get(0)?.id)
-        println(pendingList?.get(1)?.id)
-        println(userID)
+    fun getTurnfromPendingList(){
         pendingList?.forEachIndexed{ index, visits ->
             if (visits.id==userID){
-                println("$index ==========")
                 when(index){
                     0->{
                         binding?.appointmentTime?.text = "Now"
