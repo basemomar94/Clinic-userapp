@@ -14,8 +14,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 class BookingDashboard() : Fragment(R.layout.booking_dashboard) {
 
     var tabtitle = arrayOf("Upcoming", "History")
-    lateinit var pager2: ViewPager2
-    lateinit var tabl:TabLayout
+    private lateinit var pager2: ViewPager2
+    private lateinit var tabl:TabLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,7 +35,7 @@ class BookingDashboard() : Fragment(R.layout.booking_dashboard) {
         super.onViewCreated(view, savedInstanceState)
          pager2 = view.findViewById<ViewPager2>(R.id.ViewPager)
          tabl = view.findViewById<TabLayout>(R.id.tablayout)
-        pager2.adapter=PageViewerAdapter(activity!!.supportFragmentManager,activity!!.lifecycle)
+        pager2.adapter=PageViewerAdapter(requireActivity().supportFragmentManager,requireActivity().lifecycle)
 
         TabLayoutMediator(tabl, pager2) {
 

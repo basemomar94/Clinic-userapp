@@ -21,19 +21,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Home() : Fragment(R.layout.home_fragment) {
-    var _binding: HomeFragmentBinding? = null
-    val binding get() = _binding
-    var db: FirebaseFirestore? = null
-    var name: String? = null
-    var complain: String? = null
-    var today: String? = null
-    var pendingList: ArrayList<Visits>? = null
-    var turn: String? = null
-    var nextDate: String? = null
-    var nextTime: String? = null
-    var waiting: Int? = null
-    var userID:String?=null
-
+    private var _binding: HomeFragmentBinding? = null
+    private val binding get() = _binding
+    private var db: FirebaseFirestore? = null
+    private var name: String? = null
+    private var complain: String? = null
+    private var today: String? = null
+    private var pendingList: ArrayList<Visits>? = null
+    private var turn: String? = null
+    private var nextDate: String? = null
+    private var nextTime: String? = null
+    private var waiting: Int? = null
+    private var userID: String? = null
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,7 +69,7 @@ class Home() : Fragment(R.layout.home_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun GettingData() {
+    private fun GettingData() {
         val sharedPreferences = activity?.getSharedPreferences("PREF", Context.MODE_PRIVATE)
         userID = sharedPreferences?.getString("id", "")
         db = FirebaseFirestore.getInstance()
@@ -122,7 +121,7 @@ class Home() : Fragment(R.layout.home_fragment) {
 
     }
 
-    fun GetToday() {
+    private fun GetToday() {
         val calendar: Calendar = Calendar.getInstance()
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
@@ -131,7 +130,7 @@ class Home() : Fragment(R.layout.home_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun Show_turn_Card() {
+    private fun Show_turn_Card() {
         if (nextDate == today) {
             GetTurnsData()
 
@@ -147,7 +146,7 @@ class Home() : Fragment(R.layout.home_fragment) {
     private fun GetTurnsData() {
         pendingList = arrayListOf()
         db = FirebaseFirestore.getInstance()
-        db?.collection("visits")?.whereEqualTo("date", today)?.whereEqualTo("status","Pending")
+        db?.collection("visits")?.whereEqualTo("date", today)?.whereEqualTo("status", "Pending")
             ?.orderBy("bookingtime", Query.Direction.ASCENDING)?.addSnapshotListener(
 
 
@@ -173,18 +172,19 @@ class Home() : Fragment(R.layout.home_fragment) {
                             }).start()
                         }
 
-                    } })
+                    }
+                })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun IsClinicOpen() {
+    private fun IsClinicOpen() {
         var open: String? = null
         var close: String? = null
         val locale = Locale.ENGLISH
         var available: Boolean? = null
 
         val sdf = DateTimeFormatter.ofPattern("hh:mm a", locale)
-        var timeNow = LocalTime.now()
+        val timeNow = LocalTime.now()
         db = FirebaseFirestore.getInstance()
         db?.collection("settings")?.document("settings")?.addSnapshotListener { value, error ->
             if (error != null) {
@@ -210,7 +210,7 @@ class Home() : Fragment(R.layout.home_fragment) {
 
     }
 
-    fun GetSettings() {
+    private fun GetSettings() {
         db = FirebaseFirestore.getInstance()
         db?.collection("settings")?.document("settings")?.addSnapshotListener { value, error ->
             waiting = value?.getString("average")?.toInt()
@@ -218,31 +218,32 @@ class Home() : Fragment(R.layout.home_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun IsBookDatePassed(visit: String): Boolean {
+    private fun IsBookDatePassed(visit: String): Boolean {
         val locale = Locale.ENGLISH
         val sdf = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
         val visitDate: LocalDate = LocalDate.parse(visit, sdf)
         val dateNow = LocalDate.now()
         return visitDate >= dateNow
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getTurnfromPendingList(){
-        pendingList?.forEachIndexed{ index, visits ->
-            if (visits.id==userID){
-                when(index){
-                    0->{
+    private fun getTurnfromPendingList() {
+        pendingList?.forEachIndexed { index, visits ->
+            if (visits.id == userID) {
+                when (index) {
+                    0 -> {
                         binding?.appointmentTime?.text = "Now"
-                        binding?.patientNumber?.text="It's your turn"
+                        binding?.patientNumber?.text = "It's your turn"
                     }
-                   else->{
-                       val remaining= waiting?.times(index)
-                       val locale: Locale = Locale.US
-                       val sdf = DateTimeFormatter.ofPattern("hh:mm a").withLocale(locale)
-                       val time = LocalTime.now()
-                       val appointment = sdf.format(time.plusMinutes(remaining!!.toLong()))
-                       binding?.appointmentTime?.text = appointment
-                       binding?.patientNumber?.text=index.toString()
-                   }
+                    else -> {
+                        val remaining = waiting?.times(index)
+                        val locale: Locale = Locale.US
+                        val sdf = DateTimeFormatter.ofPattern("hh:mm a").withLocale(locale)
+                        val time = LocalTime.now()
+                        val appointment = sdf.format(time.plusMinutes(remaining!!.toLong()))
+                        binding?.appointmentTime?.text = appointment
+                        binding?.patientNumber?.text = index.toString()
+                    }
                 }
             }
         }

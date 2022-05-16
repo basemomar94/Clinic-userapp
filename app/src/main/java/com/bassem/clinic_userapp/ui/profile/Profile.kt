@@ -22,22 +22,22 @@ import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
 class Profile() : Fragment(R.layout.profile_fragment) {
-    var _binding: ProfileFragmentBinding? = null
-    val binding get() = _binding
+    private var _binding: ProfileFragmentBinding? = null
+    private  val binding get() = _binding
     private lateinit var db: FirebaseFirestore
-    var imageuri: Uri? = null
-    var imageLink: String? = null
+    private  var imageuri: Uri? = null
+    private var imageLink: String? = null
     private val pickImage = 100
-    var regesited_date: String? = null
-    var fileName: String? = null
-    var id: String? = null
-    var auth:FirebaseAuth?=null
+    private var regesited_date: String? = null
+    private var fileName: String? = null
+    private var id: String? = null
+    private var auth:FirebaseAuth?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sharedPreferences: SharedPreferences =
-            activity!!.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences("PREF", Context.MODE_PRIVATE)
         id = sharedPreferences.getString("id", "noo")!!
     }
 
@@ -64,7 +64,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
         }
     }
 
-    fun GettingData() {
+    private fun GettingData() {
 
         db = FirebaseFirestore.getInstance()
         db.collection("patiens_info").document(id!!).addSnapshotListener { value, error ->
@@ -89,7 +89,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
         }
     }
 
-    fun PickImage() {
+    private  fun PickImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(intent, pickImage)
     }
@@ -104,7 +104,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
         }
     }
 
-    fun UploadtoFirebase(image: Uri) {
+    private fun UploadtoFirebase(image: Uri) {
         var progressIndicator = ProgressDialog.show(context, "Uploading..", "please wait")
         fileName = UUID.randomUUID().toString() + ".jpg"
         val storage = FirebaseStorage.getInstance().reference.child("profile/$fileName")
@@ -123,7 +123,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
 
     }
 
-    fun AddPhotoNametoFireStore(link: String) {
+    private  fun AddPhotoNametoFireStore(link: String) {
         db = FirebaseFirestore.getInstance()
         db.collection("patiens_info").document(id!!).update("image", link).addOnCompleteListener {
 
@@ -131,7 +131,7 @@ class Profile() : Fragment(R.layout.profile_fragment) {
         }
     }
 
-    fun GetProfileLink()  {
+    private  fun GetProfileLink()  {
         var link: String? = null
         db = FirebaseFirestore.getInstance()
         db.collection("patiens_info").document(id!!).addSnapshotListener { value, error ->
@@ -145,14 +145,14 @@ class Profile() : Fragment(R.layout.profile_fragment) {
 
 
     }
-    fun GetProfileImage(link: String){
+    private  fun GetProfileImage(link: String){
         val imagePath= binding?.profileimage
         if (activity!=null){
             Glide.with(this).load(link).into(imagePath!!)
         }
     }
 
-    fun Logout(){
+    private  fun Logout(){
         val sharedPreferences:SharedPreferences= activity?.getSharedPreferences("PREF",Context.MODE_PRIVATE)!!
         sharedPreferences.edit().clear().apply()
         auth= FirebaseAuth.getInstance()

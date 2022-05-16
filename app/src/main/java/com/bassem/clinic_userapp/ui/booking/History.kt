@@ -14,13 +14,13 @@ import com.bassem.clinic_userapp.databinding.HistoryFragmentBinding
 import com.google.firebase.firestore.*
 
 class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklisener {
-    var _binding: HistoryFragmentBinding? = null
-    val binding get() = _binding
-    lateinit var recyclerView: RecyclerView
-    lateinit var adapter: HistoryAdapter
-    lateinit var visitsArrayList: ArrayList<Visits>
-    lateinit var id: String
-    lateinit var db: FirebaseFirestore
+    private  var _binding: HistoryFragmentBinding? = null
+    private   val binding get() = _binding
+    private  lateinit var recyclerView: RecyclerView
+    private  lateinit var adapter: HistoryAdapter
+    private  lateinit var visitsArrayList: ArrayList<Visits>
+    private   lateinit var id: String
+    private  lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var sharedPreferences = activity?.getSharedPreferences("PREF", Context.MODE_PRIVATE)
@@ -49,7 +49,7 @@ class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklis
         EventChangeListner()
     }
 
-    fun EventChangeListner() {
+    private   fun EventChangeListner() {
         db = FirebaseFirestore.getInstance()
         db.collection("visits").whereEqualTo("id", id)
             .orderBy("bookingtime", Query.Direction.DESCENDING).addSnapshotListener(
@@ -86,13 +86,13 @@ class History() : Fragment(R.layout.history_fragment), HistoryAdapter.Myclicklis
 
     override fun onClick(position: Int) {
         val visit = visitsArrayList[position].visit
-        val navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         var bundle = Bundle()
         bundle.putString("visit", visit)
         navController.navigate(R.id.action_booking_to_visitsExpand, bundle)
     }
     fun Recycle_Setup(list: ArrayList<Visits>){
-        recyclerView = view!!.findViewById(R.id.historyRV)
+        recyclerView = requireView().findViewById(R.id.historyRV)
         adapter = HistoryAdapter(list, this)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)

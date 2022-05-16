@@ -22,16 +22,16 @@ import kotlin.collections.HashMap
 
 class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
-    var _binding: UpcomingFragmentBinding? = null
-    val binding get() = _binding
-    var db: FirebaseFirestore? = null
-    var id: String? = null
-    var visit_id: String? = null
-    var today: String? = null
-    var fees: String? = null
-    var open: String? = null
-    var close: String? = null
-    var available: Boolean = true
+    private  var _binding: UpcomingFragmentBinding? = null
+    private   val binding get() = _binding
+    private  var db: FirebaseFirestore? = null
+    private   var id: String? = null
+    private  var visit_id: String? = null
+    private  var today: String? = null
+    private  var fees: String? = null
+    private  var open: String? = null
+    private  var close: String? = null
+    private  var available: Boolean = true
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -56,12 +56,14 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        db = FirebaseFirestore.getInstance()
+
         getData()
 
 
 
         binding?.newbooking?.setOnClickListener {
-            val navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             navController.navigate(R.id.action_booking_to_calendar2)
         }
         binding?.cancel?.setOnClickListener {
@@ -77,9 +79,8 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     }
 
 
-    fun Cancel() {
+    private fun Cancel() {
         println("Cancel")
-        db = FirebaseFirestore.getInstance()
         var cancel = HashMap<String, Any>()
         db?.collection("patiens_info")?.document(id!!)?.update("IsVisit", false)
             ?.addOnCompleteListener {
@@ -97,9 +98,8 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getData() {
+    private   fun getData() {
         println("Data")
-        db = FirebaseFirestore.getInstance()
         db?.collection("patiens_info")?.document(id!!)?.addSnapshotListener { value, error ->
             if (error != null) {
                 println("${error.message} ERROR")
@@ -131,9 +131,8 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
 
     }
 
-    fun CancelOnVisit() {
-        db = FirebaseFirestore.getInstance()
-        var cancelHashMap = HashMap<String, Any>()
+    private   fun CancelOnVisit() {
+        val cancelHashMap = HashMap<String, Any>()
         cancelHashMap["status"] = "cancelled by you"
         cancelHashMap["date"] = today!!
         db!!.collection("visits").document(visit_id!!).update(cancelHashMap)
@@ -145,7 +144,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun IsBookDatePassed(visit: String): Boolean {
+    private   fun IsBookDatePassed(visit: String): Boolean {
         val locale = Locale.ENGLISH
         val sdf = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
         val visitDate: LocalDate = LocalDate.parse(visit, sdf)
@@ -154,7 +153,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     }
 
 
-    fun GetToday() {
+    private  fun GetToday() {
         val calendar: Calendar = Calendar.getInstance()
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
@@ -163,8 +162,7 @@ class Upcoming() : Fragment(R.layout.upcoming_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun GetSettings() {
-        db = FirebaseFirestore.getInstance()
+    private fun GetSettings() {
         val locale = Locale.ENGLISH
         var timeNow = LocalTime.now()
         val sdf = DateTimeFormatter.ofPattern("hh:mm a", locale)

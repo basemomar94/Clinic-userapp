@@ -10,10 +10,10 @@ import com.bassem.clinic_userapp.databinding.VisitExpandBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 class VisitsExpand() : Fragment(R.layout.visit_expand) {
-    var _binding: VisitExpandBinding? = null
-    val binding get() = _binding
-    var visit: String? = null
-    var db: FirebaseFirestore? = null
+    private var _binding: VisitExpandBinding? = null
+    private val binding get() = _binding
+    private var visit: String? = null
+    private var db: FirebaseFirestore? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var bundle = this.arguments
@@ -37,7 +37,7 @@ class VisitsExpand() : Fragment(R.layout.visit_expand) {
         GettingData()
     }
 
-    fun GettingData() {
+    private fun GettingData() {
         db = FirebaseFirestore.getInstance()
         db!!.collection("visits").document(visit!!).addSnapshotListener { value, error ->
             if (error != null) {
@@ -55,7 +55,7 @@ class VisitsExpand() : Fragment(R.layout.visit_expand) {
                     binding?.visitReq?.text = value?.getString("req")
 
                 } else {
-                    binding?.statusL?.visibility=View.VISIBLE
+                    binding?.statusL?.visibility = View.VISIBLE
                     binding?.bookingStatus?.text = status
 
                 }

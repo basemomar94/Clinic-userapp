@@ -33,23 +33,23 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class Booking : Fragment(R.layout.calendarbooking_fragment) {
-    var _binding: CalendarbookingFragmentBinding? = null
-    val binding get() = _binding
-    var date: String? = null
-    var db: FirebaseFirestore? = null
-    var id: String? = null
-    var visit: String? = null
-    var name: String? = null
-    var complain: String? = null
-    var token: String? = null
-    var turn: String? = null
-    lateinit var estimatedTime: String
-    var book = false
-    var open: String? = null
-    var waiting: Int? = null
-    var holiDay: String? = null
-    var maxPatiens: Int? = null
-    var isFull: Boolean? = null
+    private var _binding: CalendarbookingFragmentBinding? = null
+    private  val binding get() = _binding
+    private  var date: String? = null
+    private  var db: FirebaseFirestore? = null
+    private var id: String? = null
+    private  var visit: String? = null
+    private  var name: String? = null
+    private  var complain: String? = null
+    private  var token: String? = null
+    private  var turn: String? = null
+    private  lateinit var estimatedTime: String
+    private  var book = false
+    private  var open: String? = null
+    private var waiting: Int? = null
+    private var holiDay: String? = null
+    private var maxPatiens: Int? = null
+    private  var isFull: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +77,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
 
 
         binding?.calendarView?.setOnDateChangeListener { calendarView, year, month, dayofMonth ->
-            var realmonth: Int = month + 1
+            val realmonth: Int = month + 1
             date = "$dayofMonth-$realmonth-$year"
             IsDayFull(date!!)
 
@@ -111,7 +111,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun Book() {
+    private  fun Book() {
 
         db = FirebaseFirestore.getInstance()
         var note: String = binding?.note?.text.toString()
@@ -138,7 +138,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
 
     }
 
-    fun HasVisit() {
+    private   fun HasVisit() {
         db = FirebaseFirestore.getInstance()
         var update = HashMap<String, Any>()
         update["next_visit"] = date!!
@@ -162,7 +162,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun VisitTurn() {
+    private    fun VisitTurn() {
         db = FirebaseFirestore.getInstance()
         db!!.collection("visits").whereEqualTo("date", date).whereEqualTo("status", "Pending").get()
             .addOnCompleteListener {
@@ -196,7 +196,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun ValidBooking(date: String): Boolean {
+    private    fun ValidBooking(date: String): Boolean {
         val locale = Locale.ENGLISH
         val sdf = DateTimeFormatter.ofPattern("d-M-yyyy", locale)
         val visitDate: LocalDate = LocalDate.parse(date, sdf)
@@ -205,7 +205,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun AfterDays(date: String): String {
+    private  fun AfterDays(date: String): String {
         var result: String
         val dateNow = LocalDate.now()
         val locale = Locale.US
@@ -221,7 +221,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
 
     }
 
-    fun GetSettings() {
+    private   fun GetSettings() {
         db = FirebaseFirestore.getInstance()
         db!!.collection("settings").document("settings").addSnapshotListener { value, error ->
             if (error != null) {
@@ -238,7 +238,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun IsHoliday(): Boolean {
+    private  fun IsHoliday(): Boolean {
         var holiday: Boolean
         val cal = Calendar.getInstance()
         val locale = Locale.US
@@ -262,7 +262,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun IsDayFull(date: String) {
+    private  fun IsDayFull(date: String) {
         var currentPatients: Int? = null
         db = FirebaseFirestore.getInstance()
         db!!.collection("visits").whereEqualTo("date", date).whereEqualTo("status", "Pending").get()
@@ -295,7 +295,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun BookingAvailable() {
+    private  fun BookingAvailable() {
         binding?.nextvisit?.setTextColor(Color.GREEN)
         binding?.nextvisit?.text = AfterDays(date!!)
         binding?.card?.visibility = View.VISIBLE
@@ -307,7 +307,7 @@ class Booking : Fragment(R.layout.calendarbooking_fragment) {
         VisitTurn()
     }
 
-    fun BookingUnavaiable(errorMessage: String) {
+    private   fun BookingUnavaiable(errorMessage: String) {
         binding?.nextvisit?.setTextColor(Color.RED)
         binding?.card?.visibility = View.VISIBLE
         binding?.confirm?.visibility = View.GONE
